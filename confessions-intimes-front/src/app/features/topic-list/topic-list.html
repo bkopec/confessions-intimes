@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Confessions</h2>
+  <button routerLink="/create-topic" class="create-button">Poster une nouvelle confession</button>
+
+  <div *ngIf="topicsPage().content.length > 0; else noTopics">
+    <ul class="topic-list">
+      <li *ngFor="let topic of topicsPage().content; trackBy: trackTopicById" class="topic-item">
+        <a [routerLink]="['/topic', topic.id]">
+          <h3>{{ topic.subject }}</h3>
+          <p>par {{ topic.posterName }} - {{ topic.createdAt | date:'short' }}</p>
+          <p>{{ topic.repliesCount }} réponses | Dernier message: {{ topic.lastPostAt | date:'short' }}</p>
+        </a>
+      </li>
+    </ul>
+
+    <div class="pagination-controls">
+      <button (click)="goToPage(topicsPage().number - 1)" [disabled]="topicsPage().first">Précédent</button>
+      <span>Page {{ topicsPage().number + 1 }} sur {{ topicsPage().totalPages }}</span>
+      <button (click)="goToPage(topicsPage().number + 1)" [disabled]="topicsPage().last">Suivant</button>
+    </div>
+  </div>
+  <ng-template #noTopics>
+    <p style="text-align: center; color: #bbb; margin-top: 30px; font-size: 1.1em;">Aucune confession trouvée. Soyez le premier à en poster une !</p>
+  </ng-template>
+</div>

@@ -1,0 +1,58 @@
+<div class="container">
+  <button (click)="router.navigate(['/'])" class="back-button">Retour aux Confessions</button>
+
+  <div *ngIf="topic() as currentTopic">
+    <h2>{{ currentTopic.subject }}</h2>
+    <p class="topic-meta">Postée par {{ currentTopic.posterName }} le {{ currentTopic.createdAt | date:'short' }}</p>
+
+    <ng-container *ngIf="messagesPage().content.length > 0 && messagesPage().number === 0">
+      <div class="original-post">
+        <h3>Confession Originale</h3>
+        <p><strong>{{ messagesPage().content[0].authorName }}</strong> le {{ messagesPage().content[0].createdAt | date:'short' }}</p>
+        <div class="message-content">{{ messagesPage().content[0].content }}</div>
+      </div>
+      <hr>
+    </ng-container>
+
+
+    <h3>Commentaires ({{ currentTopic.repliesCount }} au total)</h3>
+    <div *ngIf="messagesPage().content.length > (messagesPage().number === 0 ? 1 : 0); else noRepliesYet">
+      <ul class="message-list">
+        <li *ngFor="let message of (messagesPage().number === 0 ? messagesPage().content.slice(1) : messagesPage().content); trackBy: trackMessageById" class="message-item">
+          <strong>{{ message.authorName }}</strong> le {{ message.createdAt | date:'short' }}
+          <p>{{ message.content }}</p>
+        </li>
+      </ul>
+
+      <div class="pagination-controls">
+        <button (click)="goToMessagePage(messagesPage().number - 1)" [disabled]="messagesPage().first">Précédent</button>
+        <span>Page {{ messagesPage().number + 1 }} sur {{ messagesPage().totalPages }}</span>
+        <button (click)="goToMessagePage(messagesPage().number + 1)" [disabled]="messagesPage().last">Suivant</button>
+      </div>
+    </div>
+    <ng-template #noRepliesYet>
+      <p *ngIf="messagesPage().content.length === 0" style="text-align: center; color: #bbb;">Aucun message pour l'instant. Soyez le premier à commenter !</p>
+      <p *ngIf="messagesPage().content.length === 1 && messagesPage().number === 0" style="text-align: center; color: #bbb;">Aucun commentaire pour l'instant. Soyez le premier à en ajouter un !</p>
+      <p *ngIf="messagesPage().content.length === 0 && messagesPage().number > 0" style="text-align: center; color: #bbb;">Aucun commentaire trouvé sur cette page.</p>
+    </ng-template>
+
+
+    <hr>
+
+    <h3>Laisser un commentaire</h3>
+    <form (ngSubmit)="addReply()">
+      <div class="form-group">
+        <label for="authorName">Votre Nom (Anonyme):</label>
+        <input id="authorName" type="text" [(ngModel)]="newMessage.authorName" name="authorName" required maxlength="100" placeholder="Pseudonyme, ex: Âme Solitaire">
+      </div>
+      <div class="form-group">
+        <label for="content">Votre Confession / Commentaire:</label>
+        <textarea id="content" [(ngModel)]="newMessage.content" name="content" rows="6" required placeholder="Exprimez-vous ici..."></textarea>
+      </div>
+      <button type="submit" [disabled]="!newMessage.authorName || !newMessage.content">Poster le commentaire</button>
+    </form>
+  </div>
+  <div *ngIf="!topic()" style="text-align: center; color: #bbb; margin-top: 50px;">
+    <p>Chargement de la confession...</p>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>Poster une Nouvelle Confession</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="posterName">Votre Nom (Anonyme):</label>
+      <input id="posterName" type="text" [(ngModel)]="newTopic.posterName" name="posterName" required maxlength="100" placeholder="Pseudonyme, ex: Âme Tourmentée">
+    </div>
+    <div class="form-group">
+      <label for="subject">Sujet de votre confession:</label>
+      <input id="subject" type="text" [(ngModel)]="newTopic.subject" name="subject" required maxlength="255" placeholder="Un titre accrocheur pour votre confession...">
+    </div>
+    <div class="form-group">
+      <label for="content">Votre Confession:</label>
+      <textarea id="content" [(ngModel)]="newTopic.content" name="content" rows="8" required placeholder="Écrivez votre confession ici, sans filtre..."></textarea>
+    </div>
+    <button type="submit" [disabled]="!newTopic.subject || !newTopic.posterName || !newTopic.content">Poster la confession</button>
+    <button type="button" (click)="router.navigate(['/'])" class="cancel-button">Annuler</button>
+  </form>
+</div>
