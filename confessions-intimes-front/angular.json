@@ -78,10 +78,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "anon-message-board-front:build:production"
+              "buildTarget": "confessions-intimes-front:build:production"
             },
             "development": {
-              "buildTarget": "anon-message-board-front:build:development"
+              "buildTarget": "confessions-intimes-front:build:development"
             }
           },
           "defaultConfiguration": "development"

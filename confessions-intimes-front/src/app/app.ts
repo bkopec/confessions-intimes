@@ -11,5 +11,5 @@ import { RouterOutlet } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
-  title = 'angular-message-board';
+  title = 'confessions-intimes';
 }
