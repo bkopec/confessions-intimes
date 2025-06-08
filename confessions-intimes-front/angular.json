@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "anon-message-board-front": {
+    "confessions-intimes-front": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
